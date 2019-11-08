@@ -2,8 +2,8 @@
 
 module.exports = (context, callback) => 
 {
-    console.log(context);
-    //todos(context)
+    console.log(process.env);
+    todos(context)
     callback(undefined, {status: "done"});
 }
 
