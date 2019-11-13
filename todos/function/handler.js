@@ -5,7 +5,7 @@ module.exports = (context, callback) =>
 	if(context!="")
 	{
 		var fin=todos(context);
-		var resultado={contexto:context, resultadofinal: fin, extra: context([Object.keys(context)[2]])}
+		var resultado={contexto:context, resultadofinal: fin, extra: context[Object.keys(context)[2]]}
 		guardar(resultado);
 	}
 	else
