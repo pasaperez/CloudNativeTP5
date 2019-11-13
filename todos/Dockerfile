@@ -27,6 +27,7 @@ COPY index.js ./
 # COPY function node packages and install, adding this as a separate
 # entry allows caching of npm install runtime dependencies
 RUN npm install minio
+RUN npm install mongodb
 
 WORKDIR /home/app/function
 COPY function/*.json ./
