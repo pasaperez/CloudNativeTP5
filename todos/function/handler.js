@@ -11,7 +11,7 @@ module.exports = (context, callback) =>
 		var fecha=ob2[0].eventTime;
 		var peso=ob2[0].s3.object.size;
 		var tipo=ob2[0].s3.object.contentType;
-		var url=(function(nameObjec, callback)
+		var url=(nombreObjeto, function(nameObjec, callback)=>
 		{
 			var Minio = require('minio');
 			
@@ -23,7 +23,7 @@ module.exports = (context, callback) =>
 				accessKey: 'minio',
 				secretKey: 'minio123'
 			});
-
+			console.log("Minio Online");
 			var nameBucket='cosas';
 
 			var presignedUrl = minioClient.presignedGetObject(nameBucket, nameObjec, 1000, function(e, presignedUrl)
