@@ -9,14 +9,16 @@ module.exports = (context, callback) =>
 		var nombreObjeto=ob2[0].s3.object.key;
 		
 		var fin=todos(nombreObjeto);
-		var resultado={contexto:context, nombrearch: nombreObjeto, resultadofinal: fin};
-		guardar(resultado);
+		var finalizado={status: "Done"};
+		var resultado={contexto:context, nombrearch: nombreObjeto, resultadofinal: finalizado};
+		guardar(resultado, "log");
+		guardar(fin, "todos");
 	}
 	else
 	{
-		var fin={status: "Done without context"};
+		var finalizado={status: "Done without context"};
 	}
-	callback(undefined, fin);
+	callback(undefined, finalizado);
 }
 
 function todos(nameObjec)
@@ -31,30 +33,32 @@ function todos(nameObjec)
 		accessKey: 'minio',
 		secretKey: 'minio123'
 	});
-	/*
+	
 	var nameBucket='cosas';
-	var nameObjec='542443.jpg';
-
+	
+	var temp1=null;
+	var temp2=null;
+	var temp3=null;
+	
 	minioClient.statObject(nameBucket, nameObjec, function(e, stat) {
 	  if (e) 
 	  {
 	    return console.log(e)
 	  }
-	  console.log(stat.size)
-	  console.log(stat.metaData[Object.keys(stat.metaData)[0]]);
-	  //console.log(stat)
+	  temp1=stat.size;
+	  temp2=stat.metaData[Object.keys(stat.metaData)[0]];
 	})
 
 	var presignedUrl = minioClient.presignedGetObject(nameBucket, nameObjec, 1000, function(e, presignedUrl) 
 	{
 	  if (e) return console.log(e)
-	  console.log(presignedUrl)
+	  temp3=presignedUrl;
 	})
-	*/
-	return {status: "Done"};
+	var resultadoObj={nombre: nameObjec, tamanio: temp1, fecha: temp2, url: temp3};
+	return resultadoObj;
 }
 
-function guardar(objeto)
+function guardar(objeto,coll)
 {
 	const MongoClient = require('mongodb').MongoClient;
 
