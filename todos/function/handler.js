@@ -6,7 +6,7 @@ module.exports = (context, callback) =>
 	{
 		var context2=JSON.parse(context);
 		var ob2=context2[Object.keys(context2)[2]];
-		var nombreObjeto=ob2[0].s3.object.key};
+		var nombreObjeto=ob2[0].s3.object.key;
 		
 		var fin=todos(nombreObjeto);
 		var resultado={contexto:context, nombrearch: nombreObjeto, resultadofinal: fin};
