@@ -2,7 +2,8 @@
 
 module.exports = (context, callback) => 
 {
-	if(context!="")
+	console.log(context);
+	/*if(context!="")
 	{
 		var fin=todos(context);
 		var ob2=context[Object.keys(context)[2]];
@@ -14,7 +15,7 @@ module.exports = (context, callback) =>
 	else
 	{
 		var fin={status: "Done without context"};
-	}
+	}*/
 	callback(undefined, fin);
 }
 
