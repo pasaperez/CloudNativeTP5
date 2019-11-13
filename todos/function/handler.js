@@ -2,13 +2,16 @@
 
 module.exports = (context, callback) => 
 {
-	console.log(process.env);
-	console.log(context);
-	var fin=todos(context);
-	
-	var resultado={entorno: process.env, contexto:context, resultadofinal: fin}
-	guardar(resultado);
-	
+	if(context!="")
+	{
+		var fin=todos(context);
+		var resultado={contexto:context, resultadofinal: fin}
+		guardar(resultado);
+	}
+	else
+	{
+		var fin={status: "Done without context"};
+	}
 	callback(undefined, fin);
 }
 
@@ -25,7 +28,7 @@ function todos(context)
 		secretKey: 'minio123'
 	});
 	
-	return {status: "done"};
+	return {status: "Done"};
 }
 
 function guardar(objeto)
