@@ -6,9 +6,15 @@ module.exports = (context, callback) =>
 	{
 		var context2=JSON.parse(context);
 		var ob2=context2[Object.keys(context2)[2]];
-		var nombreObjeto=ob2[0].s3.object.key;
 		
-		var fin=todos(nombreObjeto);
+		var nombreObjeto=ob2[0].s3.object.key;
+		var fecha=ob2[0].eventTime;
+		var peso=ob2[0].s3.object.size;
+		var tipo=ob2[0].s3.object.contentType;
+		var url=todos(nombreObjeto);
+		
+		var fin={nombre: nombreObjeto, tamanio: peso, tipo: tipo, url: url};
+		
 		var finalizado={status: "Done"};
 		var resultado={contexto:context, nombrearch: nombreObjeto, resultadofinal: finalizado};
 		guardar(resultado, "log");
@@ -35,27 +41,14 @@ function todos(nameObjec)
 	});
 	
 	var nameBucket='cosas';
-	
-	var temp1="";
-	var temp2="";
-	var temp3="";
-	
-	minioClient.statObject(nameBucket, nameObjec, function(e, stat) {
-	  if (e) 
-	  {
-	    return console.log(e)
-	  }
-	  temp1=stat.size;
-	  temp2=stat.metaData[Object.keys(stat.metaData)[0]];
-	})
 
 	var presignedUrl = minioClient.presignedGetObject(nameBucket, nameObjec, 1000, function(e, presignedUrl) 
 	{
 	  if (e) return console.log(e)
-	  temp3=presignedUrl;
-	})
-	var resultadoObj={nombre: nameObjec, tamanio: temp1, tipo: temp2, url: temp3};
-	return resultadoObj;
+	  console.log(presignedUrl);
+	});
+	
+	return presignedUrl;
 }
 
 function guardar(objeto,coll)
