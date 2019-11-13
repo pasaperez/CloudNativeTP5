@@ -6,7 +6,7 @@ module.exports = (context, callback) =>
 	console.log(context);
 	var fin=todos(context);
 	
-	var resultado={entorno: process.env, contexto=context, resultadofinal: fin}
+	var resultado={entorno: process.env, contexto:context, resultadofinal: fin}
 	guardar(resultado);
 	
 	callback(undefined, fin);
