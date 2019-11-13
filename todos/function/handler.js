@@ -1,6 +1,6 @@
 "use strict"
 
-module.exports = async(context, callback) => 
+module.exports = (context, callback) => 
 {
 	if(context!="")
 	{
@@ -11,7 +11,29 @@ module.exports = async(context, callback) =>
 		var fecha=ob2[0].eventTime;
 		var peso=ob2[0].s3.object.size;
 		var tipo=ob2[0].s3.object.contentType;
-		var url=await todos(nombreObjeto);
+		var url=(function(nameObjec, callback)
+		{
+			var Minio = require('minio');
+			
+			var minioClient = new Minio.Client
+			({
+				endPoint: 'minio-service-minio.apps.us-west-1.starter.openshift-online.com',
+				port:80,
+				useSSL: false,
+				accessKey: 'minio',
+				secretKey: 'minio123'
+			});
+
+			var nameBucket='cosas';
+
+			var presignedUrl = minioClient.presignedGetObject(nameBucket, nameObjec, 1000, function(e, presignedUrl)
+			{
+			  if (e) return console.log(e)
+			  console.log(presignedUrl);
+			});
+
+			callback(presignedUrl);
+		});
 		
 		var fin={nombre: nombreObjeto, tamanio: peso, tipo: tipo, fecha: fecha,url: url};
 		
@@ -25,30 +47,6 @@ module.exports = async(context, callback) =>
 		var finalizado={status: "Done without context"};
 	}
 	callback(undefined, finalizado);
-}
-
-function todos(nameObjec)
-{
-	var Minio = require('minio');
-	
-	var minioClient = new Minio.Client
-	({
-		endPoint: 'minio-service-minio.apps.us-west-1.starter.openshift-online.com',
-		port:80,
-		useSSL: false,
-		accessKey: 'minio',
-		secretKey: 'minio123'
-	});
-	
-	var nameBucket='cosas';
-
-	var presignedUrl = minioClient.presignedGetObject(nameBucket, nameObjec, 1000, function(e, presignedUrl) 
-	{
-	  if (e) return console.log(e)
-	  console.log(presignedUrl);
-	});
-	
-	return presignedUrl;
 }
 
 function guardar(objeto,coll)
