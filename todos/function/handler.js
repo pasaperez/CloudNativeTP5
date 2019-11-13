@@ -3,6 +3,11 @@
 module.exports = (context, callback) => 
 {
 	console.log(context);
+	var ob2=context[Object.keys(context)[2]]
+	console.log(ob2);
+	var resultado2={extra: ob2[0].s3.object.key};
+	console.log(resultado2);
+	
 	/*if(context!="")
 	{
 		var fin=todos(context);
