@@ -36,19 +36,23 @@ function todos(nameObjec)
 	
 	var nameBucket='cosas';
 	
+	var temp1="";
+	var temp2="";
+	var temp3="";
+	
 	minioClient.statObject(nameBucket, nameObjec, function(e, stat) {
 	  if (e) 
 	  {
 	    return console.log(e)
 	  }
-	  var temp1=stat.size;
-	  var temp2=stat.metaData[Object.keys(stat.metaData)[0]];
+	  temp1=stat.size;
+	  temp2=stat.metaData[Object.keys(stat.metaData)[0]];
 	})
 
 	var presignedUrl = minioClient.presignedGetObject(nameBucket, nameObjec, 1000, function(e, presignedUrl) 
 	{
 	  if (e) return console.log(e)
-	  var temp3=presignedUrl;
+	  temp3=presignedUrl;
 	})
 	var resultadoObj={nombre: nameObjec, tamanio: temp1, tipo: temp2, url: temp3};
 	return resultadoObj;
