@@ -6,8 +6,10 @@ module.exports = (context, callback) =>
 	{
 		var fin=todos(context);
 		var ob2=context[Object.keys(context)[2]];
-		var resultado={contexto:context, resultadofinal: fin, extra: ob2[0].s3.object.key}
+		var resultado={contexto:context, resultadofinal: fin};
 		guardar(resultado);
+		var resultado2={extra: ob2[0].s3.object.key};
+		guardar(resultado2);
 	}
 	else
 	{
