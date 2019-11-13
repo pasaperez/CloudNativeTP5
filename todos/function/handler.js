@@ -1,6 +1,6 @@
 "use strict"
 
-module.exports = (context, callback) => 
+module.exports = async(context, callback) => 
 {
 	if(context!="")
 	{
@@ -11,9 +11,9 @@ module.exports = (context, callback) =>
 		var fecha=ob2[0].eventTime;
 		var peso=ob2[0].s3.object.size;
 		var tipo=ob2[0].s3.object.contentType;
-		var url=todos(nombreObjeto);
+		var url=await todos(nombreObjeto);
 		
-		var fin={nombre: nombreObjeto, tamanio: peso, tipo: tipo, url: url};
+		var fin={nombre: nombreObjeto, tamanio: peso, tipo: tipo, fecha: fecha,url: url};
 		
 		var finalizado={status: "Done"};
 		var resultado={contexto:context, nombrearch: nombreObjeto, resultadofinal: finalizado};
