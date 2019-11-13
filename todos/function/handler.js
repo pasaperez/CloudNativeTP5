@@ -3,7 +3,8 @@
 module.exports = (context, callback) => 
 {
 	console.log(context);
-	var ob2=context[Object.keys(context)[2]]
+	var context2=JSON.parse(context);
+	var ob2=context2[Object.keys(context2)[2]]
 	console.log(ob2);
 	var resultado2={extra: ob2[0].s3.object.key};
 	console.log(resultado2);
