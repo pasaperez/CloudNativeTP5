@@ -5,7 +5,7 @@ module.exports = (context, callback) =>
 	if(context!="")
 	{
 		var fin=todos(context);
-		var resultado={contexto:context, resultadofinal: fin}
+		var resultado={contexto:context, resultadofinal: fin, extra: context([Object.keys(context)[2]])[8]}
 		guardar(resultado);
 	}
 	else
@@ -27,7 +27,26 @@ function todos(context)
 		accessKey: 'minio',
 		secretKey: 'minio123'
 	});
-	
+	/*
+	var nameBucket='cosas';
+	var nameObjec='542443.jpg';
+
+	minioClient.statObject(nameBucket, nameObjec, function(e, stat) {
+	  if (e) 
+	  {
+	    return console.log(e)
+	  }
+	  console.log(stat.size)
+	  console.log(stat.metaData[Object.keys(stat.metaData)[0]]);
+	  //console.log(stat)
+	})
+
+	var presignedUrl = minioClient.presignedGetObject(nameBucket, nameObjec, 1000, function(e, presignedUrl) 
+	{
+	  if (e) return console.log(e)
+	  console.log(presignedUrl)
+	})
+	*/
 	return {status: "Done"};
 }
 
