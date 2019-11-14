@@ -13,12 +13,9 @@ module.exports = (context, callback) =>
 		var tipo=ob2[0].s3.object.contentType;
 		var url=todos(nombreObjeto, peso, tipo, fecha, guardar);
 		
-		//var fin={nombre: nombreObjeto, tamanio: peso, tipo: tipo, fecha: fecha,url: url};
-		
 		var finalizado={status: "Done"};
 		var resultado={contexto:context, nombrearch: nombreObjeto, resultadofinal: finalizado};
 		guardar(resultado, "log");
-		//guardar(fin, "todos");
 	}
 	else
 	{
@@ -27,7 +24,7 @@ module.exports = (context, callback) =>
 	callback(undefined, finalizado);
 }
 
-function todos(nameObjec, peso, tipo, fecha, callback2)
+function todos(nameObjec, peso, tipo, fecha, callback)
 {
 	var Minio = require('minio');
 	
@@ -44,11 +41,9 @@ function todos(nameObjec, peso, tipo, fecha, callback2)
 
 	var presignedUrl = minioClient.presignedGetObject(nameBucket, nameObjec, 1000, function(e, presignedUrl) 
 	{
-	  if (e) return console.log(e)
-	  console.log(presignedUrl);
+		var fin={nombre: nameObjec, tamanio: peso, tipo: tipo, fecha: fecha, url: presignedUrl};
+		callback(fin, "todos");	
 	});
-	var fin={nombre: nameObjec, tamanio: peso, tipo: tipo, fecha: fecha, url: presignedUrl};
-	callback2(fin, "todos");
 }
 
 function guardar(objeto,coll)
