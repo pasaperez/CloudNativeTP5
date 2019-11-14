@@ -29,6 +29,7 @@ COPY index.js ./
 RUN npm install minio
 RUN npm install mongodb
 RUN npm install exif
+RUN npm install image-size
 
 WORKDIR /home/app/function
 COPY function/*.json ./
