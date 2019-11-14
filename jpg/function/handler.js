@@ -43,7 +43,7 @@ function jpg(nameObjec, callback)
 	  {
 		return console.log(e)
 	  }
-	  callback(nameObjec, guardar);
+	  callback(nameObjec, analisis2);
 	})
 }
 
@@ -78,7 +78,7 @@ function analisis(archivo, callback)
 				console.log('Error: '+error.message);
 			else
 			{
-				callback({exif: exifData.exif, ancho: exifData.image.ImageHeight, alto: exifData.image.ImageWidth},"jpg")
+				callback(archivo, exifData.exif, guardar)
 			}
 		});
 	} 
@@ -86,4 +86,15 @@ function analisis(archivo, callback)
 	{
 		console.log('Error: ' + error.message);
 	}
+}
+
+function analisis2(archivo, exif, callback)
+{
+	var sizeOf = require('image-size')
+
+	sizeOf(archivo, function (err, dimensions) 
+	{
+	  if (err) throw err
+	  callback({exif: exif, ancho: dimensions.height, alto: dimensions.width},"jpg")
+	})
 }
