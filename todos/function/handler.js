@@ -13,7 +13,7 @@ module.exports = (context, callback) =>
 		var tipo=ob2[0].s3.object.contentType;
 		var url=todos(nombreObjeto, peso, tipo, fecha, guardar);
 		
-		var finalizado={status: "Done"};
+		var finalizado={status: "Done, todos"};
 		var resultado={contexto:context, nombrearch: nombreObjeto, resultadofinal: finalizado};
 		guardar(resultado, "log");
 	}
