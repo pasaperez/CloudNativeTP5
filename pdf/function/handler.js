@@ -92,7 +92,7 @@ function analisis3(nombre, texto, id, callback)
 
 	index.addObject(objec, (err, content) => 
 	{
-		callback({nombre: nombre}, {$set: {algoliaid: content.objectID}, "pdf")
+		callback({nombre: nombre}, {$set: {algoliaid: content.objectID}}, "pdf");
 	});
 
 	client.destroy();
