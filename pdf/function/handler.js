@@ -47,7 +47,7 @@ function pdfmio(nameObjec, callback)
 	})
 }
 
-function guardar(objeto,coll)
+function guardar(objeto, coll, extra, callback)
 {
 	const MongoClient = require('mongodb').MongoClient;
 
@@ -62,6 +62,7 @@ function guardar(objeto,coll)
 	  {
 	    if (err) throw err;
 	    console.log("1 documento insertado");
+	    callback(objeto.nombre, extra, res.insertedId);
 	  });
 	  client.close();
 	});
@@ -76,7 +77,23 @@ function analisis2(archivo, callback)
 
 	pdf(dataBuffer).then(function(data) 
 	{
-		//console.log(data.text); 
-		callback({paginas: data.numpages, metadatos: data.metadata, texto: {tx: data.text}},"pdf")
+		callback({nombre: archivo, paginas: data.numpages, metadatos: data.metadata},"pdf", data.text, analisis3)
 	});
+}
+
+function analisis3(nombre, texto, id)
+{
+	const algoliasearch = require('algoliasearch');
+
+	const client = algoliasearch('PKGIEV1P11', 'f5d2ac71e9d67a799a8c59c8f1a051f9');
+	const index = client.initIndex('production');
+
+	var objec={nombrearch: nombre, texto: texto, mongoid: id};
+
+	index.addObject(objec, (err, content) => 
+	{
+	  console.log(content);
+	});
+
+	client.destroy();
 }
