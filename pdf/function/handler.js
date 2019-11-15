@@ -110,7 +110,7 @@ function actualizar(objeto, operacion ,coll)
 
 	client.connect(err => 
 	{
-		const actual= client.db(dbd).collection(coll).updateOne(objet, campo})
+		const actual= client.db(dbd).collection(coll).updateOne(objet, campo);
 		.then(function(result) 
 		{
 		  console.log(result);
