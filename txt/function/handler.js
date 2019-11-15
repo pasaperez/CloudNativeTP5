@@ -54,8 +54,9 @@ function analisis2(archivo, callback)
 	
 	textract.fromFileWithPath(archivo, function( error, text ) 
 	{
-		var resu={nombre: archivo, texto: {txt: text}};
-		callback(resu,"txt", text, analisis3);
+		var resultadotx=text;
+		var resu={nombre: archivo, textoa: {contenido: resultadotx}};
+		callback(resu,"txt", resultadotx, analisis3);
 	})
 }
 
