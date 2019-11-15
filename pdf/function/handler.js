@@ -62,7 +62,7 @@ function guardar(objeto, coll, extra, callback)
 	  {
 	    if (err) throw err;
 	    console.log("1 documento insertado");
-	    callback(objeto.nombre, extra, res.insertedId);
+	    callback(objeto.nombre, extra, res.insertedId, actualizar);
 	  });
 	  client.close();
 	});
@@ -81,7 +81,7 @@ function analisis2(archivo, callback)
 	});
 }
 
-function analisis3(nombre, texto, id)
+function analisis3(nombre, texto, id, callback)
 {
 	const algoliasearch = require('algoliasearch');
 
@@ -92,8 +92,29 @@ function analisis3(nombre, texto, id)
 
 	index.addObject(objec, (err, content) => 
 	{
-	  console.log(content);
+		callback({nombre: nombre}, {$set: {algoliaid: content.objectID}, "pdf")
 	});
 
 	client.destroy();
+}
+
+function actualizar(objeto, operacion ,coll)
+{
+	const MongoClient = require('mongodb').MongoClient;
+
+	const dbd="minio";
+	const uri = "mongodb+srv://usertest:VuheioW9z1pMazuC@pasaperez-vzf9m.gcp.mongodb.net/"+dbd+"?w=majority";
+	const client = new MongoClient(uri, {useNewUrlParser: true,useUnifiedTopology: true});
+	var objet=objeto;
+	var campo=operacion;
+
+	client.connect(err => 
+	{
+		const actual= client.db(dbd).collection(coll).updateOne(objet, campo})
+		.then(function(result) 
+		{
+		  console.log(result);
+		})
+		client.close();
+	});
 }
