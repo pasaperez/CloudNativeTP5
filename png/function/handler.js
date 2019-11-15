@@ -10,7 +10,7 @@ module.exports = (context, callback) =>
 		var nombreObjeto=ob2[0].s3.object.key;
 		
 		var pngres=png(nombreObjeto, analisis2);
-		
+		console.log(pngres);
 		var finalizado={status: "Done, png"};
 		var resultado={contexto:context, nombrearch: nombreObjeto, resultadofinal: finalizado};
 		guardar(resultado, "log");
