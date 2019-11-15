@@ -30,6 +30,7 @@ RUN npm install minio
 RUN npm install mongodb
 RUN npm install fs
 RUN npm install pdf-parse
+RUN npm install algoliasearch
 
 WORKDIR /home/app/function
 COPY function/*.json ./
