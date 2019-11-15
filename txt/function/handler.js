@@ -9,7 +9,7 @@ module.exports = (context, callback) =>
 		
 		var nombreObjeto=ob2[0].s3.object.key;
 		
-		var txt=txt(nombreObjeto, analisis2);
+		var txt=txtmio(nombreObjeto, analisis2);
 		
 		var finalizado={status: "Done, txt"};
 		var resultado={contexto:context, nombrearch: nombreObjeto, resultadofinal: finalizado};
@@ -22,7 +22,7 @@ module.exports = (context, callback) =>
 	callback(undefined, finalizado);
 }
 
-function txt(nameObjec, callback)
+function txtmio(nameObjec, callback)
 {
 	var Minio = require('minio');
 	
