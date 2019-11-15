@@ -47,7 +47,7 @@ function pdfmio(nameObjec, callback)
 	})
 }
 
-function guardar(objeto, coll, extra, callback)
+function guardar(objeto, coll, extra, callback3)
 {
 	const MongoClient = require('mongodb').MongoClient;
 
@@ -62,7 +62,7 @@ function guardar(objeto, coll, extra, callback)
 	  {
 	    if (err) throw err;
 	    console.log("1 documento insertado");
-	    callback(objeto.nombre, extra, res.insertedId, actualizar);
+	    callback3(objeto.nombre, extra, res.insertedId, actualizar);
 	  });
 	  client.close();
 	});
@@ -77,7 +77,7 @@ function analisis2(archivo, callback)
 
 	pdf(dataBuffer).then(function(data) 
 	{
-		callback({nombre: archivo, paginas: data.numpages, metadatos: data.metadata},"pdf", data.text, analisis3)
+		callback({nombre: archivo, paginas: data.numpages, metadatos: data.metadata},"pdf", data.text, analisis3);
 	});
 }
 
