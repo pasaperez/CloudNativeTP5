@@ -43,11 +43,11 @@ function pdfmio(nameObjec, callback)
 	  {
 		return console.log(e)
 	  }
-	  callback(nameObjec, guardar);
+	  callback(nameObjec, guardar2);
 	})
 }
 
-function guardar(objeto, coll, extra, callback3)
+function guardar2(objeto, coll, extra, callback3)
 {
 	const MongoClient = require('mongodb').MongoClient;
 
@@ -60,9 +60,11 @@ function guardar(objeto, coll, extra, callback3)
 	{
 	  const collection = client.db(dbd).collection(coll).insertOne(objet, function(err, res)
 	  {
-	    if (err) throw err;
-	    console.log("1 documento insertado");
-	    callback3(objeto.nombre, extra, res.insertedId, actualizar);
+		if (err) {throw err;}
+		console.log("1 documento insertado 1");
+		var namear=objeto.nombre;
+		var idmdb=res.insertedId;
+		callback3(namear, extra, idmdb, actualizar);
 	  });
 	  client.close();
 	});
@@ -77,7 +79,9 @@ function analisis2(archivo, callback)
 
 	pdf(dataBuffer).then(function(data) 
 	{
-		callback({nombre: archivo, paginas: data.numpages, metadatos: data.metadata},"pdf", data.text, analisis3);
+		var resu={nombre: archivo, paginas: data.numpages, metadatos: data.metadata};
+		var texto=data.text;
+		callback(resu,"pdf", texto, analisis3);
 	});
 }
 
@@ -116,5 +120,25 @@ function actualizar(objeto, operacion ,coll)
 		  console.log(result);
 		})
 		client.close();
+	});
+}
+
+function guardar(objeto,coll)
+{
+	const MongoClient = require('mongodb').MongoClient;
+
+	const dbd="minio";
+	const uri = "mongodb+srv://usertest:VuheioW9z1pMazuC@pasaperez-vzf9m.gcp.mongodb.net/"+dbd+"?w=majority";
+	const client = new MongoClient(uri, {useNewUrlParser: true,useUnifiedTopology: true});
+	var objet=objeto;
+
+	client.connect(err => 
+	{
+	  const collection = client.db(dbd).collection(coll).insertOne(objet, function(err, res)
+	  {
+	    if (err) throw err;
+	    console.log("1 documento insertado");
+	  });
+	  client.close();
 	});
 }
