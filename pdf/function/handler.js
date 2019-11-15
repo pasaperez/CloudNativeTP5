@@ -10,7 +10,7 @@ module.exports = (context, callback) =>
 		var nombreObjeto=ob2[0].s3.object.key;
 		
 		var pdfres=pdfmio(nombreObjeto, analisis2);
-		console.log(pdfres);
+		
 		var finalizado={status: "Done, pdf"};
 		var resultado={contexto:context, nombrearch: nombreObjeto, resultadofinal: finalizado};
 		guardar(resultado, "log");
@@ -47,6 +47,21 @@ function pdfmio(nameObjec, callback)
 	})
 }
 
+function analisis2(archivo, callback)
+{
+	const fs = require('fs');
+	const pdf = require('pdf-parse');
+
+	let dataBuffer = fs.readFileSync(archivo);
+
+	pdf(dataBuffer).then(function(data) 
+	{
+		var resu={nombre: archivo, paginas: data.numpages, metadatos: data.metadata};
+		var texto=data.text;
+		callback(resu,"pdf", texto, analisis3);
+	});
+}
+
 function guardar2(objeto, coll, extra, callback3)
 {
 	const MongoClient = require('mongodb').MongoClient;
@@ -66,22 +81,6 @@ function guardar2(objeto, coll, extra, callback3)
 		var idmdb=res.insertedId;
 		callback3(namear, extra, idmdb, actualizar);
 	  });
-	  client.close();
-	});
-}
-
-function analisis2(archivo, callback)
-{
-	const fs = require('fs');
-	const pdf = require('pdf-parse');
-
-	let dataBuffer = fs.readFileSync(archivo);
-
-	pdf(dataBuffer).then(function(data) 
-	{
-		var resu={nombre: archivo, paginas: data.numpages, metadatos: data.metadata};
-		var texto=data.text;
-		callback(resu,"pdf", texto, analisis3);
 	});
 }
 
@@ -96,7 +95,7 @@ function analisis3(nombre, texto, id, callback)
 
 	index.addObject(objec, (err, content) => 
 	{
-		callback({nombre: nombre}, {$set: {algoliaid: content.objectID}}, "pdf");
+		callback({nombre: nombre}, {algoliaid: content.objectID}, "pdf");
 	});
 
 	client.destroy();
@@ -114,7 +113,7 @@ function actualizar(objeto, operacion ,coll)
 
 	client.connect(err => 
 	{
-		const actual= client.db(dbd).collection(coll).updateOne(objet, campo)
+		const actual= client.db(dbd).collection(coll).updateOne(objet, {$set: campo})
 		.then(function(result) 
 		{
 		  console.log(result);
@@ -131,14 +130,12 @@ function guardar(objeto,coll)
 	const uri = "mongodb+srv://usertest:VuheioW9z1pMazuC@pasaperez-vzf9m.gcp.mongodb.net/"+dbd+"?w=majority";
 	const client = new MongoClient(uri, {useNewUrlParser: true,useUnifiedTopology: true});
 	var objet=objeto;
-
 	client.connect(err => 
 	{
 	  const collection = client.db(dbd).collection(coll).insertOne(objet, function(err, res)
-	  {
+	  {  
 	    if (err) throw err;
 	    console.log("1 documento insertado");
 	  });
-	  client.close();
 	});
 }
