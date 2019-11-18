@@ -26,6 +26,9 @@ COPY index.js ./
 
 # COPY function node packages and install, adding this as a separate
 # entry allows caching of npm install runtime dependencies
+RUN npm install mongodb
+RUN npm install algoliasearch
+
 WORKDIR /home/app/function
 COPY function/*.json ./
 RUN npm i --production || :
