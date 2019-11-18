@@ -8,15 +8,8 @@ module.exports = (context, callback) =>
 	}
 	else
 	{
-		var consulta="key";
-	}
-	
-	switch(consulta)
-	{
-		case "key":
-		{
-			encontrar({}, "todos");
-		}
+		console.log("et");
+		var consulta=encontrar({}, "todos");
 	}
 	
 	console.log(process.env);
