@@ -2,15 +2,18 @@
 
 module.exports = (context, callback) => 
 {
+	console.log(process.env);
 	if (process.env.Http_Path!='/')
 	{
-		
+		console.log("con key");
+		//var consultaKey=encontrar();
 	}
 	else
 	{
-		var consulta=encontrar(null, "todos");
+		console.log("vacio");
+		//var listarTodos=encontrar(null, "todos");
 	}
-	callback(undefined, {status: "Done"});
+	//callback(undefined, {status: "Done"});
 }
 
 function encontrar(consulta,coll)
