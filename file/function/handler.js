@@ -6,14 +6,14 @@ module.exports = (context, callback) =>
 	if (process.env.Http_Path!='/')
 	{
 		console.log("con key");
-		//var consultaKey=encontrar();
+		var objeto=process.env.Http_Path.substr(1);
+		var consultaKey=encontrar(objeto, "todos");
 	}
 	else
 	{
 		console.log("vacio");
-		//var listarTodos=encontrar(null, "todos");
+		var listarTodos=encontrar(null, "todos");
 	}
-	//callback(undefined, {status: "Done"});
 }
 
 function encontrar(consulta,coll)
@@ -34,5 +34,17 @@ function encontrar(consulta,coll)
 			  });
 		  client.close();
 		});
-	}		
+	}
+	else
+	{
+		client.connect(err => 
+		{
+		  const collection = client.db(dbd).collection(coll).find({nombre: consulta},{projection: { _id: 0}}).sort({nombre: 1}).toArray(function(err, docs)
+			  {
+			    console.log(docs);
+			    console.log("\n");
+			  });
+		  client.close();
+		});
+	}
 }
