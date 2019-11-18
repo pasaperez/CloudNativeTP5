@@ -34,7 +34,7 @@ function todos(nameObjec, peso, tipo, fecha, callback)
 	var minioClient = new Minio.Client
 	({
 		endPoint: 'minio-service-minio.apps.us-west-1.starter.openshift-online.com',
-		port:9000,
+		port:80,
 		useSSL: false,
 		accessKey: 'minio',
 		secretKey: 'minio123'
