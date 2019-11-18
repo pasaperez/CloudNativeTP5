@@ -4,6 +4,7 @@ module.exports = (context, callback) =>
 {
 	if(context!="")
 	{
+		console.log("1");
 		var context2=JSON.parse(context);
 		var ob2=context2[Object.keys(context2)[2]];
 		
@@ -13,6 +14,7 @@ module.exports = (context, callback) =>
 		var tipo=ob2[0].s3.object.contentType;
 		var url=todos(nombreObjeto, peso, tipo, fecha, guardar);
 		
+		console.log("Paralelo");
 		var finalizado={status: "Done, todos"};
 		var resultado={contexto:context, nombrearch: nombreObjeto, resultadofinal: finalizado};
 		guardar(resultado, "log");
@@ -26,6 +28,7 @@ module.exports = (context, callback) =>
 
 function todos(nameObjec, peso, tipo, fecha, callback)
 {
+	console.log("2");
 	var Minio = require('minio');
 	
 	var minioClient = new Minio.Client
@@ -48,6 +51,7 @@ function todos(nameObjec, peso, tipo, fecha, callback)
 
 function guardar(objeto,coll)
 {
+	console.log("3");
 	const MongoClient = require('mongodb').MongoClient;
 
 	const dbd="minio";
