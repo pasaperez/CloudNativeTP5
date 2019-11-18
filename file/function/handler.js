@@ -8,8 +8,8 @@ module.exports = (context, callback) =>
 	}
 	else
 	{
-		console.log("et");
-		var consulta=encontrar({}, "todos");
+		var consulta=encontrar(null, "todos");
+		console.log(consulta);
 	}
 	
 	console.log(process.env);
@@ -24,12 +24,11 @@ function encontrar(consulta,coll)
 	const dbd="minio";
 	const uri = "mongodb+srv://usertest:VuheioW9z1pMazuC@pasaperez-vzf9m.gcp.mongodb.net/"+dbd+"?w=majority";
 	const client = new MongoClient(uri, {useNewUrlParser: true,useUnifiedTopology: true});
-	if (consulta=={})
+	if (consulta==null)
 	{
 		client.connect(err => 
 		{
-		  const collection = client.db(dbd).collection(coll).find({}).addQueryModifier('$orderby',
-			  {a:1}).toArray(function(err, docs)
+		  const collection = client.db(dbd).collection(coll).find({}).toArray(function(err, docs)
 			  {
 			    console.log(docs);
 			    console.log("\n");
