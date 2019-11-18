@@ -10,9 +10,6 @@ module.exports = (context, callback) =>
 	{
 		var consulta=encontrar(null, "todos");
 	}
-	
-	console.log(process.env);
-	console.log(context);
 	callback(undefined, {status: "Done"});
 }
 
@@ -27,8 +24,7 @@ function encontrar(consulta,coll)
 	{
 		client.connect(err => 
 		{
-		  const collection = client.db(dbd).collection(coll).find({},
-		{projection: { _id: 0, nombre: 1, tamanio: 0, tipo: 0, fecha: 0 }}).sort({nombre: 1}).toArray(function(err, docs)
+		  const collection = client.db(dbd).collection(coll).find({},{projection: { _id: 0, nombre: 1}}).sort({nombre: 1}).toArray(function(err, docs)
 			  {
 			    console.log(docs);
 			    console.log("\n");
