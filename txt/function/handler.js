@@ -28,8 +28,8 @@ function txtmio(nameObjec, callback)
 	
 	var minioClient = new Minio.Client
 	({
-		endPoint: 'http://192.168.106.134',
-		port:30381,
+		endPoint: 'http://minio-service-minio.apps.us-west-1.starter.openshift-online.com',
+		port:80,
 		useSSL: false,
 		accessKey: 'minio',
 		secretKey: 'minio123'
