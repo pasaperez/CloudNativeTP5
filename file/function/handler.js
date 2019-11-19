@@ -4,51 +4,52 @@ module.exports = (context, callback) =>
 {
 	if (process.env.Http_Path!='/')
 	{
-		console.log("con key");
-		var objeto=process.env.Http_Path.substr(1);
-		var tipo=objeto.substring(objeto.lastIndexOf('.')+1);
-		var consultaKey=encontrar(objeto, tipo);
+		var objeto = process.env.Http_Path.substr(1);
+		var tipo = objeto.substring(objeto.lastIndexOf('.')+1);
+		var consultaKey = encontrar(objeto, tipo, "join");
 	}
 	else
 	{
-		console.log("vacio");
 		if(process.env.Http_Query==undefined)
 		{	
-			console.log("todos");
-			var listarTodos=encontrar(null, "todos");
+			var listarTodos = encontrar(null, "todos","todos");
 		}
 		else
 		{
-			console.log("query");
 			var query = process.env.Http_Query;
 			var campo = query.substring(0,query.indexOf('='));
 			
 			if(campo=="type")
 			{
 				var valor = query.substring(query.lastIndexOf('=')+1);
-				var listarTodosPorTipo=encontrar(null, valor);
+				var listarTodosPorTipo = encontrar(null, valor, "todos");
 			}
-			if(campo=="name")
-			{
-				
-				var valor = query.substring(query.lastIndexOf('=')+1);
-			}
-			if(campo=="from")
-			{
-				var valor = query.substring(query.indexOf('=')+1, query.indexOf('&'));
-				var campo2 = query.substring(query.indexOf('&')+1,query.lastIndexOf('='));
-				var valor2 = query.substring(query.lastIndexOf('=')+1);
-
-			}
-			else
-			{
-				console.log("Query Indefinida");
+			else {
+				if(campo=="name")
+				{
+					var valor = query.substring(query.lastIndexOf('=')+1);
+					var listarTodosPorAlgoNombre = encontrar(valor, "todos", "algo");
+				}
+				else
+				{
+					if(campo=="from")
+					{
+						var valor = query.substring(query.indexOf('=')+1, query.indexOf('&'));
+						var campo2 = query.substring(query.indexOf('&')+1,query.lastIndexOf('='));
+						var valor2 = query.substring(query.lastIndexOf('=')+1);
+						
+					}
+					else
+					{
+						console.log("Query Indefinida");
+					}
+				}
 			}
 		}
 	}
 }
 
-function encontrar(consulta,coll)
+function encontrar(consulta,coll,extra)
 {
 	const MongoClient = require('mongodb').MongoClient;
 
@@ -57,33 +58,53 @@ function encontrar(consulta,coll)
 	const client = new MongoClient(uri, {useNewUrlParser: true,useUnifiedTopology: true});
 	if (consulta==null)
 	{
-		client.connect(err => 
+		if(extra=="todos")
 		{
-		  const collection = client.db(dbd).collection(coll).find({},{projection: { _id: 0, nombre: 1}}).sort({nombre: 1}).toArray(function(err, docs)
-			  {
-			    console.log(docs);
-			    console.log("\n");
-			  });
-		  client.close();
-		});
+			client.connect(err => 
+			{
+			  const collection = client.db(dbd).collection(coll).find({},{projection: { _id: 0, nombre: 1}}).sort({nombre: 1}).toArray(function(err, docs)
+				  {
+				    console.log(docs);
+				    console.log("\n");
+				  });
+			  client.close();
+			});
+		}
 	}
 	else
 	{
-		client.connect(err => 
+		if(extra=="join")
 		{
-			const collection = client.db(dbd).collection("todos").aggregate([{$lookup:
+			client.connect(err => 
 			{
-				from: coll,
-				localField: 'nombre',
-				foreignField: 'nombre',
-				as: 'detalles'
-			}
-			}]).match({nombre: consulta}).toArray(function(err, res) 
-			{
-				if (err) throw err;
-				console.log(JSON.stringify(res));
-				client.close();
+				const collection = client.db(dbd).collection("todos").aggregate([{$lookup:
+				{
+					from: coll,
+					localField: 'nombre',
+					foreignField: 'nombre',
+					as: 'detalles'
+				}
+				}]).match({nombre: consulta}).toArray(function(err, res) 
+				{
+					if (err) throw err;
+					console.log(JSON.stringify(res));
+					client.close();
+				});
 			});
-		});
+		}
+		if (extra=="algo")
+		{
+			find({post_text:{$regex:}})
+			client.connect(err => 
+			{
+			  var valor=consulta;
+			  const collection = client.db(dbd).collection(coll).find({nombre:{$regex: valor}}).toArray(function(err, docs)
+				  {
+				    console.log(docs);
+				    console.log("\n");
+				  });
+			  client.close();
+			});
+		}
 	}
 }
