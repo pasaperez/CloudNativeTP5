@@ -10,9 +10,10 @@ module.exports = (context, callback) =>
 		
 		var nombreObjeto=ob2[0].s3.object.key;
 		var fecha=ob2[0].eventTime;
+		var time=(Date.parse(fecha))/1000;
 		var peso=ob2[0].s3.object.size;
 		var tipo=ob2[0].s3.object.contentType;
-		var url=todos(nombreObjeto, peso, tipo, fecha, guardar);
+		var url=todos(nombreObjeto, peso, tipo, time, guardar);
 		
 		console.log("Paralelo");
 		var finalizado={status: "Done, todos"};
