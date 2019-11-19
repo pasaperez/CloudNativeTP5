@@ -61,6 +61,6 @@ function encontrar(consulta,coll)
 			console.log(JSON.stringify(res));
 			client.close();
 		});
-		}
+		});
 	}
 }
