@@ -13,6 +13,7 @@ module.exports = (context, callback) =>
 	else
 	{
 		console.log("vacio");
+		console.log(process.env.Http_Query);
 		var listarTodos=encontrar(null, "todos");
 	}
 }
