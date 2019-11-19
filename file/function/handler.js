@@ -2,7 +2,6 @@
 
 module.exports = (context, callback) => 
 {
-	console.log(process.env);
 	if (process.env.Http_Path!='/')
 	{
 		console.log("con key");
@@ -13,8 +12,39 @@ module.exports = (context, callback) =>
 	else
 	{
 		console.log("vacio");
-		console.log(process.env.Http_Query);
-		var listarTodos=encontrar(null, "todos");
+		if(process.env.Http_Query==undefined)
+		{	
+			console.log("todos");
+			var listarTodos=encontrar(null, "todos");
+		}
+		else
+		{
+			console.log("query");
+			var query = process.env.Http_Query;
+			var campo = query.substring(0,query.indexOf('='));
+			
+			if(campo=="type")
+			{
+				var valor = query.substring(query.lastIndexOf('=')+1);
+				var listarTodosPorTipo=encontrar(null, valor);
+			}
+			if(campo=="name")
+			{
+				
+				var valor = query.substring(query.lastIndexOf('=')+1);
+			}
+			if(campo=="from")
+			{
+				var valor = query.substring(query.indexOf('=')+1, query.indexOf('&'));
+				var campo2 = query.substring(query.indexOf('&')+1,query.lastIndexOf('='));
+				var valor2 = query.substring(query.lastIndexOf('=')+1);
+
+			}
+			else
+			{
+				console.log("Query Indefinida");
+			}
+		}
 	}
 }
 
