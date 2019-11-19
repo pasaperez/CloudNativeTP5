@@ -7,7 +7,8 @@ module.exports = (context, callback) =>
 	{
 		console.log("con key");
 		var objeto=process.env.Http_Path.substr(1);
-		var consultaKey=encontrar(objeto, "todos");
+		var tipo=objeto.substring(objeto.lastIndexOf('.')+1));
+		var consultaKey=encontrar(objeto, tipo);
 	}
 	else
 	{
@@ -39,12 +40,27 @@ function encontrar(consulta,coll)
 	{
 		client.connect(err => 
 		{
-		  const collection = client.db(dbd).collection(coll).find({nombre: consulta},{projection: { _id: 0}}).sort({nombre: 1}).toArray(function(err, docs)
+		  /*const collection = client.db(dbd).collection(coll).find({nombre: consulta},{projection: { _id: 0}}).sort({nombre: 1}).toArray(function(err, docs)
 			  {
 			    console.log(docs);
 			    console.log("\n");
 			  });
 		  client.close();
 		});
+		*/
+		const collection = client.db(dbd).collection("todos").aggregate([{$lookup:
+		       {
+			 from: coll,
+			 localField: 'nombre',
+			 foreignField: 'nombre',
+			 as: 'detalles'
+		       }
+		     }
+		    ]).toArray(function(err, res) {
+		    if (err) throw err;
+		    console.log(JSON.stringify(res));
+		    client.close();
+		  });
+		});		
 	}
 }
