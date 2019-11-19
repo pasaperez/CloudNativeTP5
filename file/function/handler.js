@@ -36,8 +36,15 @@ module.exports = (context, callback) =>
 					{
 						var valor = query.substring(query.indexOf('=')+1, query.indexOf('&'));
 						var campo2 = query.substring(query.indexOf('&')+1,query.lastIndexOf('='));
-						var valor2 = query.substring(query.lastIndexOf('=')+1);
-						
+						if(campo2=="to")
+						{
+							var valor2 = query.substring(query.lastIndexOf('=')+1);
+							var listarTodosPorAlgoNombre = encontrar({min: valor, max: valor2}, "todos", "time");
+						}
+						else
+						{
+							console.log("Query Indefinida");
+						}						
 					}
 					else
 					{
@@ -98,6 +105,20 @@ function encontrar(consulta,coll,extra)
 			{
 			  var valor=consulta;
 			  const collection = client.db(dbd).collection(coll).find({nombre:{$regex: valor}}).toArray(function(err, docs)
+				  {
+				    console.log(docs);
+				    console.log("\n");
+				  });
+			  client.close();
+			});
+		}
+		if (extra=="time")
+		{
+			client.connect(err => 
+			{
+			  var valor=consulta.min;
+			  var valor2=consulta.max;
+			  const collection = client.db(dbd).collection(coll).find({fecha:{$in:[valor, valor2]}}).toArray(function(err, docs)
 				  {
 				    console.log(docs);
 				    console.log("\n");
