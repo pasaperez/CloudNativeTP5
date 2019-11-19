@@ -48,7 +48,7 @@ function encontrar(consulta,coll)
 		  client.close();
 		});
 		*/
-		const collection = client.db(dbd).collection(coll)..find({nombre: consulta}.aggregate([{$lookup:
+		const collection = client.db(dbd).collection(coll).find({nombre: consulta}.aggregate([{$lookup:
 		       {
 			 from: "todos",
 			 localField: 'nombre',
