@@ -94,7 +94,6 @@ function encontrar(consulta,coll,extra)
 		}
 		if (extra=="algo")
 		{
-			find({post_text:{$regex:}})
 			client.connect(err => 
 			{
 			  var valor=consulta;
