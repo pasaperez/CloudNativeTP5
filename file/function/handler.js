@@ -7,7 +7,7 @@ module.exports = (context, callback) =>
 	{
 		console.log("con key");
 		var objeto=process.env.Http_Path.substr(1);
-		var tipo=objeto.substring(objeto.lastIndexOf('.')+1));
+		var tipo=objeto.substring(objeto.lastIndexOf('.')+1);
 		var consultaKey=encontrar(objeto, tipo);
 	}
 	else
