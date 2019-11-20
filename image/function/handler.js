@@ -13,15 +13,15 @@ module.exports = (context, callback) =>
 			var valor = query.substring(query.lastIndexOf('=')+1);
 			if(valor=="S")
 			{
-				var listarImagenesPorTamanio = encontrar({op:"max" tam: 500*1000}, "todos", "algo2");
+				var listarImagenesPorTamanio = encontrar({op:"max", tam: 500*1000}, "todos", "algo2");
 			}
 			if(valor=="M")
 			{
-				var listarImagenesPorTamanio = encontrar({op:"max" tam: 1000*1000}, "todos", "algo2");
+				var listarImagenesPorTamanio = encontrar({op:"max", tam: 1000*1000}, "todos", "algo2");
 			}
 			if(valor=="L")
 			{
-				var listarImagenesPorTamanio = encontrar({op:"min" tam: 1000*1000}, "todos", "algo2");
+				var listarImagenesPorTamanio = encontrar({op:"min", tam: 1000*1000}, "todos", "algo2");
 			}
 			
 		}
