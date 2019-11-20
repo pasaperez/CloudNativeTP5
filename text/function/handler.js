@@ -32,10 +32,20 @@ function search(consulta,callback)
 	{
 		if (err) throw err;
 		console.log(hits);
-		var hits2=JSON.parse(hits);
-		var ob2=hits2[Object.keys(hits2)[2]];
-		console.log(ob2);
-		callback(ob2, "todos");
+		if(hits.lenght>0)
+		{
+			var ob=[];
+			for(var a=0; a<hits.length; a++)
+			{
+				var ob2=hits[Object.keys(hits)[a]];
+				ob.push(ob2.nombrearch);
+			}
+			callback(ob2, "todos");
+		}
+		else
+		{
+			console.log(hits);
+		}
 	  }
 	);
 }
@@ -51,26 +61,15 @@ function encontrar(consulta,coll)
 	{
 		client.connect(err => 
 		{
-		  var temp=0;
-		  for(temp=0; temp>=consulta.length; temp++)
+		  var nombre = consulta[temp].nombrearch;
+		  var ext = nombre.substring(nombre.lastIndexOf('.')+1);
+		  console.log(nombre);
+		  console.log(ext);
+		  const collection = client.db(dbd).collection(coll).find({nombre:{$in:consulta}}).toArray(function(err, docs)
 		  {
-			  var nombre = consulta[temp].nombrearch;
-			  var ext = nombre.substring(nombre.lastIndexOf('.')+1);
-			  console.log(nombre);
-			  console.log(ext);
-			  const collection = client.db(dbd).collection(coll).aggregate([{$lookup:
-				{
-					from: ext,
-					localField: 'nombre',
-					foreignField: 'nombre',
-					as: 'detalles'
-				}
-				}]).match({nombre: consulta}).toArray(function(err, res) 
-				{
-					if (err) throw err;
-					console.log(JSON.stringify(res));
-				});
-		  }
+		    console.log(docs);
+		    console.log("\n");
+		  });
 		  client.close();
 		});
 	}
