@@ -32,7 +32,10 @@ function search(consulta,callback)
 	{
 		if (err) throw err;
 		console.log(hits);
-		callback(hits, "todos");
+		var hits2=JSON.parse(hits);
+		var ob2=hits2[Object.keys(hits2)[2]];
+		console.log(ob2);
+		callback(ob2, "todos");
 	  }
 	);
 }
@@ -44,7 +47,7 @@ function encontrar(consulta,coll)
 	const dbd="minio";
 	const uri = "mongodb+srv://usertest:VuheioW9z1pMazuC@pasaperez-vzf9m.gcp.mongodb.net/"+dbd+"?w=majority";
 	const client = new MongoClient(uri, {useNewUrlParser: true,useUnifiedTopology: true});
-	if (consulta!=undefined)
+	if (consulta!=undefined || consulta!=null)
 	{
 		client.connect(err => 
 		{
