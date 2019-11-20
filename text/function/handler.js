@@ -31,7 +31,7 @@ function search(consulta,callback)
 	index.search({query: consulta},(err,{hits} = {}) => 
 	{
 		if (err) throw err;
-		console.log(hits);
+		callback(hits, "todos");
 	  }
 	);
 }
@@ -43,15 +43,28 @@ function encontrar(consulta,coll)
 	const dbd="minio";
 	const uri = "mongodb+srv://usertest:VuheioW9z1pMazuC@pasaperez-vzf9m.gcp.mongodb.net/"+dbd+"?w=majority";
 	const client = new MongoClient(uri, {useNewUrlParser: true,useUnifiedTopology: true});
-	if (consulta==null)
+	if (consulta!=[])
 	{
 		client.connect(err => 
 		{
-		  const collection = client.db(dbd).collection(coll).find({},{projection: { _id: 0, nombre: 1}}).sort({nombre: 1}).toArray(function(err, docs)
-			  {
-				console.log(docs);
-				console.log("\n");
-			  });
+		  var temp=0;
+		  for(temp=0; temp>=consulta.length; temp++)
+		  {
+			  var nombre = consulta[temp].nombrearch;
+			  var ext = nombre.substring(nombre.lastIndexOf('.')+1);
+			  const collection = client.db(dbd).collection(coll).aggregate([{$lookup:
+				{
+					from: ext,
+					localField: 'nombre',
+					foreignField: 'nombre',
+					as: 'detalles'
+				}
+				}]).match({nombre: consulta}).toArray(function(err, res) 
+				{
+					if (err) throw err;
+					console.log(JSON.stringify(res));
+				});
+		  }
 		  client.close();
 		});
 	}
