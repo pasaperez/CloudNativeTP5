@@ -31,6 +31,7 @@ function search(consulta,callback)
 	index.search({query: consulta},(err,{hits} = {}) => 
 	{
 		if (err) throw err;
+		console.log(hits);
 		callback(hits, "todos");
 	  }
 	);
@@ -52,6 +53,8 @@ function encontrar(consulta,coll)
 		  {
 			  var nombre = consulta[temp].nombrearch;
 			  var ext = nombre.substring(nombre.lastIndexOf('.')+1);
+			  console.log(nombre);
+			  console.log(ext);
 			  const collection = client.db(dbd).collection(coll).aggregate([{$lookup:
 				{
 					from: ext,
@@ -67,5 +70,9 @@ function encontrar(consulta,coll)
 		  }
 		  client.close();
 		});
+	}
+	else
+	{
+		console.log("Sin coincidencias");
 	}
 }
