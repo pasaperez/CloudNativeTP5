@@ -95,6 +95,6 @@ function analisis2(archivo, exif, callback)
 	sizeOf(archivo, function (err, dimensions) 
 	{
 	  if (err) throw err
-	  callback({nombre: archivo, exif: exif, ancho: dimensions.height, alto: dimensions.width},"jpg");
+	  callback({nombre: archivo, exif: exif, ancho: dimensions.height, alto: dimensions.width, pixeles: (dimensions.height)*(dimensions.width)},"jpg");
 	})
 }
