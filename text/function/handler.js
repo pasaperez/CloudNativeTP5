@@ -28,7 +28,7 @@ function search(consulta,callback)
 	const client = algoliasearch('PKGIEV1P11', '1be49959c827c3be5c08a30c12656477');
 	const index = client.initIndex('production');
 
-	index.search({query: consult},(err,{hits} = {}) => 
+	index.search({query: consulta},(err,{hits} = {}) => 
 	{
 		if (err) throw err;
 		console.log(hits);
