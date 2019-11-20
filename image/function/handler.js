@@ -8,6 +8,8 @@ module.exports = (context, callback) =>
 	}
 	else
 	{
+		var query = process.env.Http_Query;
+		var campo = query.substring(0,query.indexOf('='));
 		if(campo=="size")
 		{
 			var valor = query.substring(query.lastIndexOf('=')+1);
