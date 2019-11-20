@@ -118,7 +118,7 @@ function encontrar(consulta,coll,extra)
 			{
 			  var valor=parseInt(consulta.min);
 			  var valor2=parseInt(consulta.max);
-			  const collection = client.db(dbd).collection(coll).find({fecha:{$gt:valor, $lt:valor2}}).toArray(function(err, docs)
+			  const collection = client.db(dbd).collection(coll).find({fecha:{$gte:valor, $lte:valor2}}).toArray(function(err, docs)
 				  {
 				    console.log(docs);
 				    console.log("\n");
