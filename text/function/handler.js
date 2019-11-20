@@ -22,7 +22,7 @@ module.exports = (context, callback) =>
 	}
 }
 
-function encontrar(consulta,callback)
+function search(consulta,callback)
 {
 	const algoliasearch = require('algoliasearch');
 	const client = algoliasearch('PKGIEV1P11', '1be49959c827c3be5c08a30c12656477');
