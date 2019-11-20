@@ -74,6 +74,6 @@ function analisis2(archivo, callback)
 	sizeOf(archivo, function (err, dimensions) 
 	{
 	  if (err) throw err
-	  callback({nombre: archivo, ancho: dimensions.height, alto: dimensions.width},"png")
+	  callback({nombre: archivo, ancho: dimensions.height, alto: dimensions.width, pixeles: (dimensions.height)*(dimensions.width)},"png")
 	})
 }
