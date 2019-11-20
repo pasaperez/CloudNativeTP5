@@ -44,7 +44,7 @@ function encontrar(consulta,coll)
 	const dbd="minio";
 	const uri = "mongodb+srv://usertest:VuheioW9z1pMazuC@pasaperez-vzf9m.gcp.mongodb.net/"+dbd+"?w=majority";
 	const client = new MongoClient(uri, {useNewUrlParser: true,useUnifiedTopology: true});
-	if (consulta!=[])
+	if (consulta!=undefined)
 	{
 		client.connect(err => 
 		{
