@@ -32,7 +32,8 @@ function search(consulta,callback)
 	{
 		if (err) throw err;
 		console.log(hits);
-		if(hits.lenght>0)
+		console.log(hits.lenght);
+		if(hits!=[])
 		{
 			var ob=[];
 			for(var a=0; a<hits.length; a++)
@@ -41,10 +42,6 @@ function search(consulta,callback)
 				ob.push(ob2.nombrearch);
 			}
 			callback(ob2, "todos");
-		}
-		else
-		{
-			console.log(hits);
 		}
 	  }
 	);
