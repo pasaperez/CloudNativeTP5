@@ -18,7 +18,7 @@ module.exports = (context, callback) =>
 		else
 		{
 			console.log("Query Indefinida");
-		}
+		} 
 	}
 }
 
