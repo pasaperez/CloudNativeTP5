@@ -13,10 +13,12 @@ El endpoint:
 http://minio-service-minio.apps.us-west-1.starter.openshift-online.com/minio/
 ```
 La password y password secreta son:
+
 "minio" "minio123"
 
 ### Logica
 El tp esta realizado con openfaas con funciones en NodeJS 10.
+
 La funciones todos, jpg, png, pdf y txt. Son las funciones disparadas por eventos webhook MiniO.
 
 El endpoint de la UI es:
@@ -35,14 +37,28 @@ mongodb+srv://usertest:VuheioW9z1pMazuC@pasaperez-vzf9m.gcp.mongodb.net/"+dbd+"?
 ```
 ### API Rest
 La API de consultas esta desarrollada para ser utilizada con openfaas.
+
 Se realizaron funciones: file, images, text, para realizar consultas.
+
+Por ejemplo:
+```
+http://34.95.153.180:8080/function/file?type=jpg
+http://34.95.153.180:8080/function/file
+http://34.95.153.180:8080/function/text?q=te
+http://34.95.153.180:8080/function/image?size=M
+```
 
 ### Almacenamiento y busqueda de texto
 Se utilizo algolia con un indice:
+
 "production"
+
 Con ID de aplicacion:
+
 "PKGIEV1P11"
+
 Y key de busqueda:
+
 "1be49959c827c3be5c08a30c12656477"
 
 ## Deploys
