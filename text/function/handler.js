@@ -58,10 +58,6 @@ function encontrar(consulta,coll)
 	{
 		client.connect(err => 
 		{
-		  var nombre = consulta[temp].nombrearch;
-		  var ext = nombre.substring(nombre.lastIndexOf('.')+1);
-		  console.log(nombre);
-		  console.log(ext);
 		  const collection = client.db(dbd).collection(coll).find({nombre:{$in:consulta}}).toArray(function(err, docs)
 		  {
 		    console.log(docs);
