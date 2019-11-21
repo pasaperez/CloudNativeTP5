@@ -32,7 +32,6 @@ function search(consulta,callback)
 	{
 		if (err) throw err;
 		console.log(hits);
-		console.log(hits.length);
 		if(hits!=[])
 		{
 			var ob=[];
@@ -41,8 +40,8 @@ function search(consulta,callback)
 				var ob2=hits[Object.keys(hits)[a]];
 				ob.push(ob2.nombrearch);
 			}
-			console.log(ob2);
-			callback(ob2, "todos");
+			console.log(ob);
+			callback(ob, "todos");
 		}
 	  }
 	);
