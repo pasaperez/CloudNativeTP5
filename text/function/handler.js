@@ -32,7 +32,7 @@ function search(consulta,callback)
 	{
 		if (err) throw err;
 		console.log(hits);
-		console.log(hits.lenght);
+		console.log(hits.length);
 		if(hits!=[])
 		{
 			var ob=[];
@@ -41,6 +41,7 @@ function search(consulta,callback)
 				var ob2=hits[Object.keys(hits)[a]];
 				ob.push(ob2.nombrearch);
 			}
+			console.log(ob2);
 			callback(ob2, "todos");
 		}
 	  }
@@ -54,20 +55,13 @@ function encontrar(consulta,coll)
 	const dbd="minio";
 	const uri = "mongodb+srv://usertest:VuheioW9z1pMazuC@pasaperez-vzf9m.gcp.mongodb.net/"+dbd+"?w=majority";
 	const client = new MongoClient(uri, {useNewUrlParser: true,useUnifiedTopology: true});
-	if (consulta!=undefined || consulta!=null)
+	client.connect(err => 
 	{
-		client.connect(err => 
-		{
-		  const collection = client.db(dbd).collection(coll).find({nombre:{$in:consulta}}).toArray(function(err, docs)
-		  {
-		    console.log(docs);
-		    console.log("\n");
-		  });
-		  client.close();
-		});
-	}
-	else
-	{
-		console.log("Sin coincidencias");
-	}
+	  const collection = client.db(dbd).collection(coll).find({nombre:{$in:consulta}}).toArray(function(err, docs)
+	  {
+	    console.log(docs);
+	    console.log("\n");
+	  });
+	  client.close();
+	});
 }
